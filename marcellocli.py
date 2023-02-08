@@ -45,6 +45,7 @@ def execute_script(file):
     file : dict
         A dict containing the file information
     """
+
     match file['file_extension']:
         case ".py":
             os.system("python3" + file['file_path'])
