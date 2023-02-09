@@ -2,7 +2,7 @@
 
 NGINX_WEB_DIR='/var/www/html'
 REPO_URI='https://github.com/marcelfreiberg/marcelfreiberg.com'
-REPO_OUT="$HOME/git/deployment_website"
+REPO_OUT="$HOME/.marcellocli/marcelfreiberg.com"
 
 echo "--Checking if git and node are installed..."
 # Check if git, npm and node are installed
@@ -29,7 +29,7 @@ fi
 
 echo "--Cloning the repository into website directory"
 # Clone the repository
-git clone "$REPO_URI" "$REPO_OUT"
+git clone --depth 1 "$REPO_URI" "$REPO_OUT"
 if [ $? -ne 0 ]; then
   echo "--Error: Failed to clone repository" >&2
   exit 1
