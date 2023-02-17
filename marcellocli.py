@@ -4,7 +4,7 @@ import os
 from simple_term_menu import TerminalMenu
 
 
-def list_files(directory) -> list:
+def list_files(directory: str) -> list:
     """List all files in a directory
 
     Parameters
@@ -18,10 +18,14 @@ def list_files(directory) -> list:
         A list of files in the directory as a dict
     """
 
+    # Get all files in the directory
     files = os.listdir(directory)
+
+    # Only keep files, not subdirectories
     files = [file for file in files if os.path.isfile(
         os.path.join(directory, file))]
 
+    # Create a list of file information
     table = []
     for file in files:
         file_name = os.path.splitext(file)[0]
@@ -37,7 +41,7 @@ def list_files(directory) -> list:
     return table
 
 
-def execute_script(file):
+def execute_script(file: dict) -> None:
     """Execute a script based on the file extension
 
     Parameters
@@ -46,24 +50,35 @@ def execute_script(file):
         A dict containing the file information
     """
 
-    match file['file_extension']:
-        case ".py":
-            os.system("python3" + file['file_path'])
-        case ".sh":
-            os.system(file['file_path'])
-        case _:
-            print("File extension not supported")
+    # Extract the file extension
+    file_extension: str = file['file_extension']
+
+    # Execute the script based on the file extension
+    if file_extension == ".py":
+        os.system("python3 " + file['file_path'])
+    elif file_extension == ".sh":
+        os.system("bash " + file['file_path'])
+    else:
+        print("File extension not supported")
 
 
 def main():
+    # Get a list of all the files in the scripts directory
     files = list_files("./scripts")
+
+    # Get a list of the file names only
     options = [d['file_name'] for d in files]
 
+    # Create a new TerminalMenu object
     terminal_menu = TerminalMenu(options)
+
+    # Show the menu and get the index of the selected item
     menu_entry_index = terminal_menu.show()
 
+    # Print which option the user selected
     print("You selected: " + options[menu_entry_index])
 
+    # Run the script that the user selected
     execute_script(files[menu_entry_index])
 
 
