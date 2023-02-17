@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
-import os
-from simple_term_menu import TerminalMenu
+# Check dependencies
+try:
+    import os
+    from simple_term_menu import TerminalMenu
+except ModuleNotFoundError:
+    print("Please install the dependencies by running the following command:")
+    print("pip3 install -r requirements.txt")
+    exit(1)
 
 
 def list_files(directory: str) -> list:
