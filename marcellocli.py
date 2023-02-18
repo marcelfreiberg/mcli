@@ -69,8 +69,13 @@ def execute_script(file: dict) -> None:
 
 
 def main():
+    # Get the path of this script
+    marcellocli_path = os.path.dirname(os.path.realpath(__file__))
+
     # Get a list of all the files in the scripts directory
-    files = list_files("./scripts")
+    scripts_path = os.path.join(marcellocli_path, "scripts")
+
+    files = list_files(scripts_path)
 
     # Get a list of the file names only
     options = [d['file_name'] for d in files]

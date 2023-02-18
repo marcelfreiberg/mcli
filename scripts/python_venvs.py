@@ -82,8 +82,6 @@ def main():
     # Check if the pyenvs folder exists and create it if it doesn't
     venvs_folder = os.path.expanduser("~/.marcellocli/venvs")
 
-    print(venvs_folder)
-
     if not os.path.exists(venvs_folder):
         os.makedirs(venvs_folder)
 
