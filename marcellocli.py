@@ -76,7 +76,7 @@ def main():
     options = [d['file_name'] for d in files]
 
     # Create a new TerminalMenu object
-    terminal_menu = TerminalMenu(options)
+    terminal_menu = TerminalMenu(options, title="Marcello CLI", clear_screen=True)
 
     # Show the menu and get the index of the selected item
     menu_entry_index = terminal_menu.show()
