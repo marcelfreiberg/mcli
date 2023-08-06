@@ -147,14 +147,14 @@ ohai "Downloading and installing mcli..."
     cd "${MCLI_REPOSITORY}" >/dev/null || return
 
     # we do it in four steps to avoid merge errors when reinstalling
-    execute "${USABLE_GIT}" "-c" "init.defaultBranch=main" "init" "--quiet"
+    execute "${GIT}" "-c" "init.defaultBranch=main" "init" "--quiet"
 
     # "git remote add" will fail if the remote is defined in the global config
-    execute "${USABLE_GIT}" "config" "remote.origin.url" "${MCLI_DEFAULT_GIT_REMOTE}"
+    execute "${GIT}" "config" "remote.origin.url" "${MCLI_DEFAULT_GIT_REMOTE}"
 
-    execute "${USABLE_GIT}" "fetch" "--force" "origin"
+    execute "${GIT}" "fetch" "--force" "origin"
 
-    execute "${USABLE_GIT}" "reset" "--hard" "origin/master"
+    execute "${GIT}" "reset" "--hard" "origin/master"
 
     execute "ln" "-sf" "../mcli/bin/mcli.py" "${MCLI_PREFIX}/bin/mcli"
 ) || exit 1
