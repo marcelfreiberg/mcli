@@ -154,7 +154,7 @@ ohai "Downloading and installing mcli..."
 
     execute "${GIT}" "fetch" "--force" "origin"
 
-    execute "${GIT}" "reset" "--hard" "origin/master"
+    execute "${GIT}" "reset" "--hard" "origin/main"
 
     execute "ln" "-sf" "../mcli/bin/mcli.py" "${MCLI_PREFIX}/bin/mcli"
 ) || exit 1
