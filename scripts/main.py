@@ -73,7 +73,7 @@ def main():
     marcellocli_path = os.path.dirname(os.path.realpath(__file__))
 
     # Get a list of all the files in the scripts directory
-    scripts_path = os.path.join(marcellocli_path, "scripts")
+    scripts_path = os.path.join(marcellocli_path, ".")
 
     files = list_files(scripts_path)
 

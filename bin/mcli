@@ -1,0 +1,53 @@
+#!/bin/bash
+
+set -u
+
+abort() {
+    printf "%s\n" "$@" >&2
+    exit 1
+}
+
+shell_join() {
+    local arg
+    printf "%s" "$1"
+    shift
+    for arg in "$@"
+    do
+        printf " "
+        printf "%s" "${arg// /\ }"
+    done
+}
+
+execute() {
+    if ! "$@"
+    then
+        abort "$(printf "Failed during: %s" "$(shell_join "$@")")"
+    fi
+}
+
+quiet_cd() {
+    cd "$@" &>/dev/null || return
+}
+
+symlink_target_directory() {
+    local target target_dirname
+    target="$(readlink "$1")"
+    target_dirname="$(dirname "${target}")"
+    local directory="$2"
+    quiet_cd "${directory}" && quiet_cd "${target_dirname}" && pwd -P
+}
+
+####################################################################### script
+MCLI_FILE_DIRECTORY="$(quiet_cd "${0%/*}/" && pwd -P)"
+MCLI_MCLI_FILE="${MCLI_FILE_DIRECTORY%/}/${0##*/}"
+MCLI_PREFIX="${MCLI_MCLI_FILE%/*/*}"
+
+MCLI_REPOSITORY="${MCLI_PREFIX}"
+
+if [[ -L "${MCLI_MCLI_FILE}" ]]
+then
+    MCLI_FILE_DIRECTORY="$(symlink_target_directory "${MCLI_MCLI_FILE}" "${MCLI_FILE_DIRECTORY}")"
+    MCLI_REPOSITORY="${MCLI_FILE_DIRECTORY%/*}"
+fi
+
+execute "${MCLI_REPOSITORY}/.venv/bin/python" "${MCLI_REPOSITORY}/scripts/main.py"
