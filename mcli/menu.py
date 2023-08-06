@@ -1,14 +1,5 @@
-#!/usr/bin/env python3
-
-# Check dependencies
-try:
-    import os
-    from simple_term_menu import TerminalMenu
-except ModuleNotFoundError:
-    print("Please install the dependencies by running the following command:")
-    print("pip3 install -r requirements.txt")
-    exit(1)
-
+import os
+from simple_term_menu import TerminalMenu
 
 def list_files(directory: str) -> list:
     """List all files in a directory
@@ -73,7 +64,7 @@ def main():
     marcellocli_path = os.path.dirname(os.path.realpath(__file__))
 
     # Get a list of all the files in the scripts directory
-    scripts_path = os.path.join(marcellocli_path, ".")
+    scripts_path = os.path.join(marcellocli_path, "cmd")
 
     files = list_files(scripts_path)
 

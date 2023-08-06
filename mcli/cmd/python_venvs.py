@@ -1,15 +1,7 @@
-#!/usr/bin/env python3
-
 # Check dependencies
-try:
-    import os
-    import subprocess
-    from simple_term_menu import TerminalMenu
-except ModuleNotFoundError:
-    print("Please install the dependencies by running the following command:")
-    print("pip3 install -r requirements.txt")
-    exit(1)
-
+import os
+import subprocess
+from simple_term_menu import TerminalMenu
 
 def create_venv(venvs_folder: str):
     # Get venv name as input from the user
