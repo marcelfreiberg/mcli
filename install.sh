@@ -151,6 +151,7 @@ ohai "Downloading and installing mcli..."
 
     # "git remote add" will fail if the remote is defined in the global config
     execute "${GIT}" "config" "remote.origin.url" "${MCLI_DEFAULT_GIT_REMOTE}"
+    execute "${GIT}" "config" "remote.origin.fetch" "+refs/heads/*:refs/remotes/origin/*"
 
     execute "${GIT}" "fetch" "--force" "origin"
 
