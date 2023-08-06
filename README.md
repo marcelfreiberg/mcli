@@ -1,7 +1,7 @@
 # marcello-cli
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/marcelfreiberg/mcli/main/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/marcelfreiberg/mcli/main/install/install.sh)"
 ```
 
 ## Installation
