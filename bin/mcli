@@ -50,4 +50,4 @@ then
     MCLI_REPOSITORY="${MCLI_FILE_DIRECTORY%/*}"
 fi
 
-execute "${MCLI_REPOSITORY}/.venv/bin/python" "${MCLI_REPOSITORY}/mcli/main.py" "$@"
+execute "${MCLI_REPOSITORY}/.venv/bin/python" "${MCLI_REPOSITORY}/mcli/cli.py" "$@"
