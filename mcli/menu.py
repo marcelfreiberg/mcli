@@ -1,6 +1,7 @@
 import os
 from simple_term_menu import TerminalMenu
 
+
 def list_files(directory: str) -> list:
     """List all files in a directory
 
@@ -19,8 +20,7 @@ def list_files(directory: str) -> list:
     files = os.listdir(directory)
 
     # Only keep files, not subdirectories
-    files = [file for file in files if os.path.isfile(
-        os.path.join(directory, file))]
+    files = [file for file in files if os.path.isfile(os.path.join(directory, file))]
 
     # Create a list of file information
     table = []
@@ -30,11 +30,15 @@ def list_files(directory: str) -> list:
         absolute_path = os.path.abspath(directory)
         file_path = os.path.join(absolute_path, file)
 
-        table.append({'file': file,
-                      'file_name': file_name,
-                      'file_extension': file_extension,
-                      'absolute_path': absolute_path,
-                      'file_path': file_path})
+        table.append(
+            {
+                "file": file,
+                "file_name": file_name,
+                "file_extension": file_extension,
+                "absolute_path": absolute_path,
+                "file_path": file_path,
+            }
+        )
     return table
 
 
@@ -48,13 +52,13 @@ def execute_script(file: dict) -> None:
     """
 
     # Extract the file extension
-    file_extension: str = file['file_extension']
+    file_extension: str = file["file_extension"]
 
     # Execute the script based on the file extension
     if file_extension == ".py":
-        os.system("python3 " + file['file_path'])
+        os.system("python3 " + file["file_path"])
     elif file_extension == ".sh":
-        os.system("bash " + file['file_path'])
+        os.system("bash " + file["file_path"])
     else:
         print("File extension not supported")
 
@@ -69,7 +73,7 @@ def main():
     files = list_files(scripts_path)
 
     # Get a list of the file names only
-    options = [d['file_name'] for d in files]
+    options = [d["file_name"] for d in files]
 
     # Create a new TerminalMenu object
     terminal_menu = TerminalMenu(options, title="Marcello CLI", clear_screen=True)
