@@ -170,7 +170,7 @@ ohai "Installing python virtual environment..."
     
     execute "python" "-m" "venv" "${MCLI_REPOSITORY}/.venv"
     
-    execute "${MCLI_REPOSITORY}/.venv/bin/pip" "install" "-r" "${MCLI_REPOSITORY}/requirements.txt"
+    execute "${MCLI_REPOSITORY}/.venv/bin/pip" "--disable-pip-version-check" "install" "-r" "${MCLI_REPOSITORY}/requirements.txt"
 ) || exit 1
 
 if [[ ":${PATH}:" != *":${MCLI_PREFIX}/bin:"* ]]
