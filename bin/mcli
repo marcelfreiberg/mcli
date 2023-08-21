@@ -50,4 +50,11 @@ then
     MCLI_REPOSITORY="${MCLI_FILE_DIRECTORY%/*}"
 fi
 
-execute "${MCLI_REPOSITORY}/.venv/bin/python" "${MCLI_REPOSITORY}/mcli/cli.py" "$@"
+PYTHON_PATH="$(which python)"
+
+if [[ -d "${MCLI_REPOSITORY}/.venv" ]]
+then
+    PYTHON_PATH="${MCLI_REPOSITORY}/.venv/bin/python"
+fi
+
+execute "${PYTHON_PATH}" "${MCLI_REPOSITORY}/mcli/cli.py" "$@"
