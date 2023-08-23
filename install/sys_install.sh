@@ -55,13 +55,52 @@ then
 fi
 
 # Installation variables for macos
-MCLI_PREFIX="${HOME}"
-MCLI_REPOSITORY="${MCLI_PREFIX}/.mcli"
+MCLI_PREFIX="/usr/local"
+MCLI_REPOSITORY="${MCLI_PREFIX}/mcli"
+CHOWN=("/usr/sbin/chown")
+GROUP="admin"
 
 # Common installation variables
+# CHMOD=("/bin/chmod")
 MKDIR=("/bin/mkdir" "-p")
 GIT=/usr/bin/git
 MCLI_DEFAULT_GIT_REMOTE="https://github.com/marcelfreiberg/mcli"
+
+unset HAVE_SUDO_ACCESS # unset this from the environment
+
+have_sudo_access() {
+    if [[ ! -x "/usr/bin/sudo" ]]
+    then
+        return 1
+    fi
+    
+    local -a SUDO=("/usr/bin/sudo")
+    if [[ -n "${SUDO_ASKPASS-}" ]]
+    then
+        SUDO+=("-A")
+    elif [[ -n "${NONINTERACTIVE-}" ]]
+    then
+        SUDO+=("-n")
+    fi
+    
+    if [[ -z "${HAVE_SUDO_ACCESS-}" ]]
+    then
+        if [[ -n "${NONINTERACTIVE-}" ]]
+        then
+            "${SUDO[@]}" -l mkdir &>/dev/null
+        else
+            "${SUDO[@]}" -v && "${SUDO[@]}" -l mkdir &>/dev/null
+        fi
+        HAVE_SUDO_ACCESS="$?"
+    fi
+    
+    if [[ "${HAVE_SUDO_ACCESS}" -ne 0 ]]
+    then
+        abort "Need sudo access on macOS (e.g. the user ${USER} needs to be an Administrator)!"
+    fi
+    
+    return "${HAVE_SUDO_ACCESS}"
+}
 
 execute() {
     if ! "$@"
@@ -70,7 +109,32 @@ execute() {
     fi
 }
 
+execute_sudo() {
+    local -a args=("$@")
+    if have_sudo_access
+    then
+        if [[ -n "${SUDO_ASKPASS-}" ]]
+        then
+            args=("-A" "${args[@]}")
+        fi
+        ohai "/usr/bin/sudo" "${args[@]}"
+        execute "/usr/bin/sudo" "${args[@]}"
+    else
+        ohai "${args[@]}"
+        execute "${args[@]}"
+    fi
+}
+
+check_run_command_as_root() {
+    [[ "${EUID:-${UID}}" == "0" ]] || return
+    abort "Don't run this as root!"
+}
+
 ####################################################################### script
+ohai 'Checking for `sudo` access (which may request your password)...'
+have_sudo_access
+check_run_command_as_root
+
 ohai "This script will install:"
 echo "${MCLI_PREFIX}/bin/mcli"
 echo "${MCLI_REPOSITORY}"
@@ -79,8 +143,8 @@ if [[ -d "${MCLI_REPOSITORY}" ]]
 then
     abort "mcli is already installed in ${MCLI_REPOSITORY}."
 fi
-
-execute "${MKDIR[@]}" "${MCLI_REPOSITORY}"
+execute_sudo "${MKDIR[@]}" "${MCLI_REPOSITORY}"
+execute_sudo "${CHOWN[@]}" "-R" "${USER}:${GROUP}" "${MCLI_REPOSITORY}"
 
 ohai "Downloading and installing mcli..."
 (
