@@ -72,7 +72,7 @@ execute() {
 
 ####################################################################### script
 ohai "This script will install:"
-echo "${MCLI_PREFIX}/bin/mcli"
+# echo "${MCLI_PREFIX}/bin/mcli"
 echo "${MCLI_REPOSITORY}"
 
 if [[ -d "${MCLI_REPOSITORY}" ]]
