@@ -1,5 +1,7 @@
 # marcello-cli
 
+This repository is there for me to feel comfortable on a new system.
+
 ## Installation
 
 ### Bash
@@ -10,10 +12,6 @@
 ### Powershell
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/marcelfreiberg/mcli/main/install/install.ps1'))
-```
-
-```bash
-mcli --help
 ```
 
 ## Development
